@@ -30,5 +30,14 @@ shinyServer(function(input, output, session) {
     req(scf())
     chromatogram(sangerseq(scf()))
   })
+  
+  output$downloadSCF <- downloadHandler(
+    filename = function() {
+      paste(Sys.Date(), ".scf", sep="")
+    },
+    content = function(file) {
+      write.scf(scf(), file)
+    }
+  )
 
 })

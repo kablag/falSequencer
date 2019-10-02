@@ -260,11 +260,11 @@ generateSamplePoints <-
     apply(samplePoints, 2, as.integer)
   
   samplePoints[is.na(samplePoints) | samplePoints < 0] <- 0L
-  # Old : Q = -10 * log10(nuc_area_under_peak / total_nucs_area_under_peak)
-  # Q = -10 * log10(nuc_peak_height / sum_nucs_peaks_height)
+  # Old : Q = -10 * log10(1 - nuc_area_under_peak / total_nucs_area_under_peak)
+  # Q = -10 * log10(1 - nuc_peak_height / sum_nucs_peaks_height)
   for (i in seq_along(nucs)) {
     # peakPosition <- c(positions[i, "pos"] - 0.5 * samplesPerNuc,
-    #   positions[i, "pos"] + 0.5 * samplesPerNuc)
+      # positions[i, "pos"] + 0.5 * samplesPerNuc)
     # peakRegion <- genPeakRegion(peakPosition, nsamples)
     # positions[i, nucs[i]] <- 
     #   as.integer(-10 *
@@ -300,6 +300,9 @@ create.scf <- function(nucSeq,
   scf <- new("scf")
   
   nucSeql <- nchar(nucSeq)
+  
+  if (is.null(comments) || is.na(comments) || comments == "")
+    comments <- " "
   
   peaks <- generateSamplePoints(
     nucSeq, samplesPerNuc = samplesPerNuc,
