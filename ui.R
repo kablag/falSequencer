@@ -1,5 +1,5 @@
 library(shiny)
-library(plotly)
+# library(plotly)
 
 shinyUI(fluidPage(
 
@@ -10,13 +10,27 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 2,
-      sliderInput("peakWidth", "Points Per Peak", 40, 5, 100),
-      sliderInput("subSeqFreq", "Subpeaks Frequency", 0, 1, 0.15),
-      sliderInput("hScale", "Peak Width Compression", 0, 1, 0.3),
-      sliderInput("vScale", "Min Peak Height", 0.5, 1, 0.7),
-      sliderInput("subSeqVScale", "Max Subpeak Height", 0.1, 0.5, 0.2),
-      sliderInput("backgroundVScale", "Max Background Height", 0, 0.05, 0.005, step = 0.001),
-      actionButton("generateChromatogram", "Generate Chromatogram")
+      numericInput("samplesPerNuc", "Samples per nucleotide",
+                   20, 5),
+      numericInput("ppositionVariety", "Peak position variety",
+                   0.1, 0),
+      numericInput("pwidth", "Peak width (fraction of Samples per nucleotide)",
+                   0.1, 0.01),
+      numericInput("pwidthVariety", "Peak width variety",
+                   0.1, 0),
+      numericInput("pheight", "Peak height",
+                   500, 10),
+      numericInput("pheightVariety", "Peak height variety",
+                   0.1, 0),
+      numericInput("subpProb", "Subpeak probability",
+                   0.1, 0),
+      numericInput("subpHeight", "Subpeak height (fraction of Peak height)",
+                   0.3, 0),
+      numericInput("noisepProb", "Noise peak probability",
+                   0.1, 0),
+      numericInput("noisepHeight", "Noise peak height (fraction of Peak height)",
+                   0.1, 0),
+      textInput("comments", "Comments", "")
     ),
 
     # Show a plot of the generated distribution
@@ -25,7 +39,15 @@ shinyUI(fluidPage(
                 "atagcccgatcyatatrggatgchagtmtancatgg",
                 placeholder = "Input IUPAC sequence",
                 width = "100%"),
-      plotlyOutput("chromatogramPlot")
+      textInput("subsequence", "Optional subsequence", 
+                "",
+                placeholder = "Input IUPAC sequence",
+                width = "100%"),
+      fluidRow(
+        column(2, actionButton("generateChromatogram", "Generate Chromatogram")),
+        column(2, downloadButton("downloadSCF", "Download chromatogram as SCF"))
+        ),
+      plotOutput("chromatogramPlot")
     )
   )
 ))
