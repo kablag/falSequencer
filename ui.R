@@ -2,10 +2,10 @@ library(shiny)
 # library(plotly)
 
 shinyUI(fluidPage(
-
+  
   # Application title
   titlePanel("falSequencer"),
-
+  
   # Sidebar with a slider input for number of bins
   sidebarLayout(
     sidebarPanel(
@@ -31,8 +31,9 @@ shinyUI(fluidPage(
       numericInput("noisepHeight", "Noise peak height (fraction of Peak height)",
                    0.1, 0),
       textInput("comments", "Comments", "")
+      
     ),
-
+    
     # Show a plot of the generated distribution
     mainPanel(
       textInput("sequence", "Sequence", 
@@ -46,7 +47,7 @@ shinyUI(fluidPage(
       fluidRow(
         column(2, actionButton("generateChromatogram", "Generate Chromatogram")),
         column(2, downloadButton("downloadSCF", "Download chromatogram as SCF"))
-        ),
+      ),
       plotOutput("chromatogramPlot")
     )
   )
